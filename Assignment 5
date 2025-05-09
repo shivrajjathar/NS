@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdint.h>
+// Initial Permutation Table
+const int initial_permutation_table[64] = {58, 50, 42, 34, 26, 18, 10, 2,
+                                           60, 52, 44, 36, 28, 20, 12, 4,
+                                           62, 54, 46, 38, 30, 22, 14, 6,
+                                           64, 56, 48, 40, 32, 24, 16, 8,
+                                           57, 49, 41, 33, 25, 17, 9, 1,
+                                           59, 51, 43, 35, 27, 19, 11, 3,
+                                           61, 53, 45, 37, 29, 21, 13, 5,
+                                           63, 55, 47, 39, 31, 23, 15, 7};
+
+// Key Permutation Table
+const int key_permutation_table[56] = {57, 49, 41, 33, 25, 17, 9,
+                                       1, 58, 50, 42, 34, 26, 18,
+                                       10, 2, 59, 51, 43, 35, 27,
+                                       19, 11, 3, 60, 52, 44, 36,
+                                       63, 55, 47, 39, 31, 23, 15,
+                                       7, 62, 54, 46, 38, 30, 22,
+                                       14, 6, 61, 53, 45, 37, 29,
+                                       21, 13, 5, 28, 20, 12, 4};
+
+// Function to perform initial permutation
+uint64_t initial_permutation(uint64_t data) {
+    uint64_t result = 0;
+    int i;
+    for (i = 0; i < 64; i++) {
+        result |= ((data >> (64 - initial_permutation_table[i])) & 1) << (63 - i);
+    }
+    return result;
+}
+// Function to generate subkeys
+void generate_subkeys(uint64_t key, uint64_t *subkeys) {
+    // Implement key generation here
+}
+int main() {
+    // Test initial permutation
+    uint64_t plaintext = 0x000056789ABCD11; // 64-bit plaintext
+    printf("Plaintext: %016llx\n", plaintext);
+
+    uint64_t permuted_plaintext = initial_permutation(plaintext);
+    printf("Initial Permuted Plaintext: %016llx\n", permuted_plaintext);
+
+    // Test key generation
+    uint64_t key = 0x133457799BBCDFF1; // 64-bit key
+    printf("Key: %016llx\n", key);
+
+    uint64_t subkeys[16];
+    generate_subkeys(key, subkeys);
+
+    int i;
+    for (i = 0; i < 16; i++) {
+        printf("Subkey %d: %016llx\n", i+1, subkeys[i]);
+    }
+    return 0;
+}
